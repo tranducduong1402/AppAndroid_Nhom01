@@ -29,7 +29,7 @@ function HomeProducts() {
       setData(response.data)
     }
   }
-  data.map(item => console.log(item))
+  // data.map(item => console.log(item))
   return (
     <ScrollView flex={1} showsVerticalScrollIndicator={false}>
       <Flex

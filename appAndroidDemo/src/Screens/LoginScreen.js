@@ -12,7 +12,7 @@ import React, { useContext, useState } from "react";
 import Colors from "../color";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import axios from "axios";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function LoginScreen({ navigation }) {
 
   const [email, setEmail] = useState(null)
@@ -28,7 +28,7 @@ function LoginScreen({ navigation }) {
        let userInfo = res.data;
        setUserInfo(userInfo);
          navigation.navigate("Bottom")
-       // AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+       AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
        // setIsLoading(false);
        console.log(userInfo);
      })
