@@ -15,6 +15,7 @@ import NumericInput from "react-native-numeric-input";
 import Buttone from "../Components/Buttone";
 import Review from "../Components/Review";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function SingleProductScreen({ route }) {
   const [value, setValue] = useState(0);
@@ -22,47 +23,37 @@ function SingleProductScreen({ route }) {
   const product = route.params;
   const [cart,setCart] = useState([]);
   
-  console.log(route.params)
-  // useEffect(() => {
-  //   if (id) {
-  //     getOneBook(id);
-  //   }
-  // }, [id]);
 
-  // const getOneBook = async (id) => {
-  //   const response = await axios.get(`http://localhost:5000/book/${id}`);
-  //   setState({ ...response.data });
-  // };
   function onClickAddCart(data){
-     console.log(data)
     const itemcart = {
       product: product,
     }
-  console.log(cart)
+
     AsyncStorage.getItem('cart').then((datacart)=>{
         if (datacart !== null) {
           // We have data!!
           const cart = JSON.parse(datacart)
           cart.push(itemcart)
           AsyncStorage.setItem('cart',JSON.stringify(cart));
+          navigation.navigate("Cart")
         }
         else{
           const cart  = []
           cart.push(itemcart)
           AsyncStorage.setItem('cart',JSON.stringify(cart));
+          navigation.navigate("Cart", product)
         }
-        alert("Add Cart")
       })
       .catch((err)=>{
         alert(err)
       })
   }
-
+  // console.log(AsyncStorage.)
   return (
     <Box safeArea flex={1} bg={Colors.white}>
       <ScrollView px={5} showsVerticalScrollIndicator={false}>
         <Image
-          source={{ uri: "https://thanhthinhbui.cdn.vccloud.vn/wp-content/uploads/2020/06/chup-san-pham-online-3.png" }}
+          source={{ uri: product.image  }}
           alt="Image"
           w="full"
           h={300}
@@ -103,20 +94,11 @@ function SingleProductScreen({ route }) {
         <Text lineHeight={24} fontSize={12}>
           {product.description}
         </Text>
-        {cart.includes(product) ? (  
+        {
+          (
           <Buttone
           // onPress={() => navigation.navigate("Cart", product)}
-           onPress={() => setCart(cart.filter((x) => x._id !== product._id))}
-          bg={Colors.main}
-          color={Colors.white}
-          mt={10}
-        >
-          Remove Card
-        </Buttone>) 
-        :(
-          <Buttone
-          // onPress={() => navigation.navigate("Cart", product)}
-          onPress={() => setCart([...cart, product])}
+          onPress={() => onClickAddCart(product)}
           bg={Colors.main}
           color={Colors.white}
           mt={10}

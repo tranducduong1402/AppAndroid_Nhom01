@@ -1,15 +1,31 @@
 import { useNavigation } from "@react-navigation/native";
 import { Box, Button, Center, HStack, ScrollView, Text } from "native-base";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Colors from "../color";
 import Buttone from "../Components/Buttone";
 // import CartEmpty from "../Components/CartEmpty";
 import CartIterms from "../Components/CartIterms";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CartEmpty from "../Components/CartEmpty";
 
 function CartScreen({ route }) {
   const navigation = useNavigation();
   const product = route.params;
-console.log(product)
+  console.log(product)
+  const [cart, setCart] = useState("");
+  useEffect (() =>{
+    AsyncStorage.getItem('cart').then((cart)=>{
+      if (cart !== null) {
+        const cartItem = JSON.parse(cart)
+         setCart(cartItem);  
+      }
+    })
+    .catch((err)=>{
+      alert(err)
+    })
+  },[product])
+
+  
   return (
     <Box flex={1} safeAreaTop bg={Colors.subGreen}>
       {/* Header */}
@@ -19,12 +35,11 @@ console.log(product)
         </Text>
       </Center>
      
-      {/* IF CART IS EMPTY
-      
-      <CartEmpty /> */}
-      {/* CART ITEMS */}
       <ScrollView showsVerticalScrollIndicator={false}>
-        <CartIterms />
+      {
+        !cart || cart == [] ? <CartEmpty/> :<CartIterms  data = {cart}/>
+      }
+
         {/* Total */}
         <Center mt={5}>
           <HStack

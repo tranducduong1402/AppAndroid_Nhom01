@@ -1,9 +1,24 @@
 import { Center, Heading, Image, Text } from "native-base";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Colors from "../color";
 import Tabs from "../Components/Profile/Tabs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function ProfileScreen() {
+const [profile, setProfile] = useState("");
+
+  useEffect (() =>{
+    AsyncStorage.getItem('userInfo').then((info)=>{
+      if (info !== null) {
+        const infomation = JSON.parse(info)
+        setProfile(infomation);  
+      }
+    })
+    .catch((err)=>{
+      alert(err)
+    })
+  },[])
+
   return (
     <>
       <Center bg={Colors.main} pt={10} pb={6}>
@@ -17,10 +32,10 @@ function ProfileScreen() {
           resizeMode="cover"
         />
         <Heading bold fontSize={15} isTruncated my={2} color={Colors.white}>
-          Admin Doe
-        </Heading>
+        {profile.name}
+         </Heading>
         <Text italic fontSize={10} color={Colors.white}>
-          Joined Dec 12 2022
+        {profile.email}
         </Text>
       </Center>
       {/* TABS */}
