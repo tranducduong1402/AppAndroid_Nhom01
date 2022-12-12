@@ -112,7 +112,7 @@ const Profile = () => {
               bg={Colors.subGreen}
               borderColor={Colors.main}
               py={4}
-              type="text"
+              type="password"
               color={Colors.main}
               fontSize={15}
               _focus={{
@@ -137,7 +137,7 @@ const Profile = () => {
             bg={Colors.subGreen}
             borderColor={Colors.main}
             py={4}
-            type="text"
+            type="password"
             color={Colors.main}
             fontSize={15}
             _focus={{
