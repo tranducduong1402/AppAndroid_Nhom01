@@ -42,6 +42,7 @@ function LoginScreen({ navigation }) {
    setEmail(e.target.value);
  };
  const onChangePassword = (e) => {
+  console.log(e.target.name)
    setPassword(e.target.value);
  };
   return (

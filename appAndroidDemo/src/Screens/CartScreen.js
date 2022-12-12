@@ -12,7 +12,7 @@ function CartScreen({ route }) {
   const navigation = useNavigation();
   const product = route.params;
   console.log(product)
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState("");
   useEffect (() =>{
     AsyncStorage.getItem('cart').then((cart)=>{
       if (cart !== null) {
@@ -24,9 +24,7 @@ function CartScreen({ route }) {
       alert(err)
     })
   },[product])
-  
-  console.log(cart)
-   
+
   
   return (
     <Box flex={1} safeAreaTop bg={Colors.subGreen}>
@@ -39,7 +37,7 @@ function CartScreen({ route }) {
      
       <ScrollView showsVerticalScrollIndicator={false}>
       {
-        !cart ? <CartEmpty/> :<CartIterms  data = {cart}/>
+        !cart || cart == [] ? <CartEmpty/> :<CartIterms  data = {cart}/>
       }
 
         {/* Total */}

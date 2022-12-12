@@ -10,11 +10,9 @@ import {
   VStack,
 } from "native-base";
 import { SwipeListView } from "react-native-swipe-list-view";
-import products from "../data/Products";
 import Colors from "../color";
 import { FontAwesome } from "@expo/vector-icons";
-// const [cart, setCart] = useState([]);
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // useEffect (() =>{
 //   AsyncStorage.getItem('cart').then((cart)=>{
 //     if (cart !== null) {
@@ -26,7 +24,12 @@ import { FontAwesome } from "@expo/vector-icons";
 //     alert(err)
 //   })
 // },[])
- const remove = () => {}
+ const remove = (data) => {
+
+
+ }
+
+
 const Swiper = (props) => (
   <SwipeListView
     rightOpenValue={-50}
@@ -42,7 +45,6 @@ const Swiper = (props) => (
 
 // Cart Item
 const renderitem = (data) => (
-  console.log(data.item.product),
   <Pressable>
     <Box ml={6} mb={3}>
       <HStack
@@ -86,7 +88,8 @@ const renderitem = (data) => (
 );
 
 // Hidden
-const hiddenItem = () => (
+const hiddenItem = (dataitem) => (
+
   <Pressable
     w={50}
     roundedTopRight={10}
@@ -96,7 +99,19 @@ const hiddenItem = () => (
     justifyContent="center"
     bg={Colors.red}
   >
-    <Button onPress={remove(data.item.product._id)}>
+    <Button  onPress={() =>  
+      AsyncStorage.getItem('cart').then((cart)=>{
+        if (cart !== null) {
+          const cartItem = JSON.parse(cart)
+          console.log(dataitem.item.product._id)
+         const a = cartItem.filter(item =>  item.product._id !== dataitem.item.product._id)
+         AsyncStorage.setItem('cart',JSON.stringify(a));
+        }
+      })
+      .catch((err)=>{
+        alert(err)
+      })
+    }>
       <Center alignItems="center" space={2}>
         <FontAwesome name="trash" size={24} color={Colors.white} />
       </Center>
