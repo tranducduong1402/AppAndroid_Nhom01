@@ -9,7 +9,7 @@ const Profile = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
- console.log(email)
+
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -32,9 +32,9 @@ const Profile = () => {
       alert(err)
     })
   },[])
-  console.log(id)
+  
   const update = (name, email, password ) => {
-    axios.put(`http://localhost:5000/api/users/profile/${id}`, {
+    axios.put(`https://97ee-14-166-102-177.ap.ngrok.io/profile/${id}`, {
         email,
         password,
         name,

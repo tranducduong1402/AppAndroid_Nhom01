@@ -79,7 +79,7 @@ const renderitem = (data) => (
               color: Colors.white,
             }}
           >
-            5
+            {data.item.qty}
           </Button>
         </Center>
       </HStack>

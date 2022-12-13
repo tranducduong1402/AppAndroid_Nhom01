@@ -13,6 +13,7 @@ import Colors from "../color";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Message from "../Components/Notfications/Message";
 function LoginScreen({ navigation }) {
 
   const [email, setEmail] = useState(null)
@@ -20,7 +21,7 @@ function LoginScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState({});
  
   const login = ( email, password ) => {
-   axios.post('http://localhost:5000/api/users/login', {
+   axios.post(' https://97ee-14-166-102-177.ap.ngrok.io/api/users/login', {
        email,
        password,
      })
@@ -33,6 +34,7 @@ function LoginScreen({ navigation }) {
        console.log(userInfo);
      })
      .catch(e => {
+      <Message variant="alert-info mt-5"> Login sucess</Message>
        console.log(`login error ${e}`);
        // setIsLoading(false);
      });
@@ -42,7 +44,6 @@ function LoginScreen({ navigation }) {
    setEmail(e.target.value);
  };
  const onChangePassword = (e) => {
-  console.log(e.target.name)
    setPassword(e.target.value);
  };
   return (

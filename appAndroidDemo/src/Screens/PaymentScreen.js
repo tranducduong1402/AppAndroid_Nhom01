@@ -34,7 +34,8 @@ const paymentMethodes = [
   },
 ];
 
-function PaymentScreen() {
+function PaymentScreen({route}) {
+  console.log(route.params)
   const navigation = useNavigation();
   return (
     <Box flex={1} safeAreaTop bg={Colors.main} py={5}>
@@ -84,7 +85,7 @@ function PaymentScreen() {
             ))}
 
             <Buttone
-              onPress={() => navigation.navigate("Placeorder")}
+              onPress={() => navigation.navigate("Placeorder", route.params)}
               bg={Colors.main}
               color={Colors.white}
               mt={5}

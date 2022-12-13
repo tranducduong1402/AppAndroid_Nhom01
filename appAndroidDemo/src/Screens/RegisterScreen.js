@@ -19,20 +19,16 @@ function RegisterScreen({ navigation }) {
  const [password, setPassword] = useState(null)
  const [name, setName] = useState(null)
 
-
-
  const register = ( name, email, password ) => {
-  axios.post(`http://localhost:5000/api/users`, {
+  axios.post(` https://97ee-14-166-102-177.ap.ngrok.io/api/users`, {
       name,
       email,
       password,
     })
     .then(res => {
       let userInfo = res.data;
-      // setUserInfo(userInfo);
-      // AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
       navigation.navigate("Bottom")
-            console.log(userInfo);
+      console.log(userInfo);
     })
     .catch(e => {
       console.log(`register error ${e}`);
@@ -48,6 +44,7 @@ const onChangeEmail = (e) => {
 const onChangePassword = (e) => {
   setPassword(e.target.value);
 };
+
 console.log(name)
   return (
     <Box flex={1} bg={Colors.black}>

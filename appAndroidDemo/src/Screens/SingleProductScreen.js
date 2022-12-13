@@ -16,17 +16,16 @@ import Buttone from "../Components/Buttone";
 import Review from "../Components/Review";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 function SingleProductScreen({ route }) {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const navigation = useNavigation();
   const product = route.params;
   const [cart,setCart] = useState([]);
-  
 
   function onClickAddCart(data){
     const itemcart = {
       product: product,
+      qty: value
     }
 
     AsyncStorage.getItem('cart').then((datacart)=>{
@@ -48,7 +47,8 @@ function SingleProductScreen({ route }) {
         alert(err)
       })
   }
-  // console.log(AsyncStorage.)
+ 
+  
   return (
     <Box safeArea flex={1} bg={Colors.white}>
       <ScrollView px={5} showsVerticalScrollIndicator={false}>
@@ -64,9 +64,8 @@ function SingleProductScreen({ route }) {
         </Heading>
         <Rating value={product.rating} text={`${product.numReviews} reviews`} />
         <HStack space={2} alignItems="center" my={5}>
-          {product.countInStock > 0 ? (
+          { product.countInStock > 0 ? (
             <NumericInput
-              value={value}
               totalWidth={140}
               totalHeight={30}
               iconSize={25}
@@ -86,7 +85,7 @@ function SingleProductScreen({ route }) {
             </Heading>
           )}
 
-          <Spacer />
+           <Spacer />
           <Heading bold color={Colors.black} fontSize={19}>
             ${product.price}
           </Heading>
