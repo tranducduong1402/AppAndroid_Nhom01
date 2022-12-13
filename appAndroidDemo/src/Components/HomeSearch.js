@@ -18,7 +18,7 @@ function HomeSearch() {
       safeAreaTop
     >
       <Input
-        placeholder="Nike, Puma, Adidas ...."
+        placeholder="Camera,Loudspeaker, headphone ...."
         w="85%"
         bg={Colors.white}
         type="search"

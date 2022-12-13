@@ -114,7 +114,6 @@ userRouter.post(
 // PROFILE
 userRouter.get(
   "/profile",
-  protect,
   asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
 
@@ -135,10 +134,10 @@ userRouter.get(
 
 // UPDATE PROFILE
 userRouter.put(
-  "/profile",
-  protect,
+  "/profile/:id",
   asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
+    console.log(req.params.id)
+    const user = await User.findById(req.params.id);
 
     if (user) {
       user.name = req.body.name || user.name;
@@ -165,8 +164,6 @@ userRouter.put(
 // GET ALL USER ADMIN
 userRouter.get(
   "/",
-  protect,
-  admin,
   asyncHandler(async (req, res) => {
     const users = await User.find({});
     res.json(users);

@@ -11,7 +11,6 @@ import CartEmpty from "../Components/CartEmpty";
 function CartScreen({ route }) {
   const navigation = useNavigation();
   const product = route.params;
-  console.log(product)
   const [cart, setCart] = useState("");
   useEffect (() =>{
     AsyncStorage.getItem('cart').then((cart)=>{
@@ -24,8 +23,11 @@ function CartScreen({ route }) {
       alert(err)
     })
   },[product])
-
-  
+  let total = 0;
+   for(var i=0 ;i < cart.length ;i++){
+     total += cart[i].product.price * cart[i].qty;
+   }
+   console.log(total)
   return (
     <Box flex={1} safeAreaTop bg={Colors.subGreen}>
       {/* Header */}
@@ -66,7 +68,7 @@ function CartScreen({ route }) {
                 bg: Colors.main,
               }}
             >
-              $356
+              {`${total}$`}
             </Button>
           </HStack>
         </Center>

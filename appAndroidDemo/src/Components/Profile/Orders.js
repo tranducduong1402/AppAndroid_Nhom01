@@ -1,14 +1,36 @@
 import { Box, Button, HStack, ScrollView, Text } from "native-base";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable } from "react-native";
 import Colors from "../../color";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const Orders = () => {
+  const [dataOrder, setdata] = useState([]);
+
+  useEffect (() =>{
+    AsyncStorage.getItem('userInfo').then((info)=>{
+      if (info !== null) {
+        const infomation = JSON.parse(info)
+        const response = axios.get(`http://localhost:5000/api/orders/${infomation._id}`)
+        if(response.status === 200) {
+          setData(response.data)
+        }
+  }
+    })
+    .catch((err)=>{
+      alert(err)
+    })
+  },[])
+ console.log(dataOrder)
+
   return (
     <Box h="full" bg={Colors.white} pt={5}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Paid Order */}
-        <Pressable>
+
+           
+          <Pressable>
           <HStack
             space={4}
             justifyContent="space-between"
@@ -18,7 +40,7 @@ const Orders = () => {
             px={2}
           >
             <Text fontSize={9} color={Colors.blue} isTruncated>
-              64645383844766557
+            12
             </Text>
             <Text fontSize={12} bold color={Colors.black} isTruncated>
               PAID
@@ -42,6 +64,9 @@ const Orders = () => {
             </Button>
           </HStack>
         </Pressable>
+
+      
+        
         {/* Not Paid */}
         <Pressable>
           <HStack

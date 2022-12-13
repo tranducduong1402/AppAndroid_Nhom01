@@ -24,7 +24,7 @@ function HomeProducts() {
   },[])
 
   const getBook = async () =>{
-    const response = await axios.get("http://localhost:5000/api/products")
+    const response = await axios.get("http://192.168.1.6:5000/api/products")
     if(response.status === 200) {
       setData(response.data)
     }

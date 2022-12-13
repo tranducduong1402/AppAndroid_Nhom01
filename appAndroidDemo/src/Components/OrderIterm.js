@@ -9,17 +9,31 @@ import {
   Text,
   VStack,
 } from "native-base";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import products from "../data/Products";
 import Colors from "../color";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const OrderIterm = () => {
+  const [cart, setCart] = useState("");
+  useEffect (() =>{
+    AsyncStorage.getItem('cart').then((cart)=>{
+      if (cart !== null) {
+        const cartItem = JSON.parse(cart)
+         setCart(cartItem);  
+      }
+    })
+    .catch((err)=>{
+      alert(err)
+    })
+  },[])
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
-      data={products.slice(0, 3)}
-      keyExtractor={(item) => item._id}
+      data={cart}
+      keyExtractor={(item) => item.product._id}
       renderItem={({ item }) => (
+        console.log(item),
         <Pressable>
           <Box mb={3}>
             <HStack
@@ -31,8 +45,8 @@ const OrderIterm = () => {
             >
               <Center w="25%" bg={Colors.deepGray}>
                 <Image
-                  source={{ uri: item.image }}
-                  alt={item.name}
+                  source={{ uri: item.product.image }}
+                  alt={item.product.name}
                   w="full"
                   h={24}
                   resizeMode="contain"
@@ -40,10 +54,10 @@ const OrderIterm = () => {
               </Center>
               <VStack w="60%" px={2}>
                 <Text isTruncated color={Colors.black} bold fontSize={12}>
-                  {item.name}
+                  {item.product.name}
                 </Text>
                 <Text color={Colors.lightBlack} mt={2} bold>
-                  ${item.price}
+                  ${item.product.price}
                 </Text>
               </VStack>
               <Center>
@@ -54,7 +68,7 @@ const OrderIterm = () => {
                     color: Colors.white,
                   }}
                 >
-                  5
+                  {item.qty}
                 </Button>
               </Center>
             </HStack>

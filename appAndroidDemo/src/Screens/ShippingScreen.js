@@ -33,7 +33,6 @@ const ShippingInputs = [
 
 function ShippingScreen() {
   const navigation = useNavigation();
-
   const [city, setCity] = useState(null);
   const [country, setCountry] = useState(null);
   const [postalCode, setPostal] = useState(null);
@@ -61,7 +60,7 @@ function ShippingScreen() {
   .catch((err)=>{
     alert(err)
   })
-    navigation.navigate("Checkout")
+    navigation.navigate("Checkout",{city,country,postalCode,address})
   }
   
   return (

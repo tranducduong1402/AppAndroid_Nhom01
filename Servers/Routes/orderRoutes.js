@@ -8,7 +8,6 @@ const orderRouter = express.Router();
 // CREATE ORDER
 orderRouter.post(
   "/",
-  protect,
   asyncHandler(async (req, res) => {
     const {
       orderItems,
@@ -69,7 +68,6 @@ orderRouter.get(
 // GET ORDER BY ID
 orderRouter.get(
   "/:id",
-  protect,
   asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id).populate(
       "user",
@@ -114,7 +112,6 @@ orderRouter.put(
 // ORDER IS PAID
 orderRouter.put(
   "/:id/delivered",
-  protect,
   asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
 
