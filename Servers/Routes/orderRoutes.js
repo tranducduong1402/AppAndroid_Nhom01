@@ -2,12 +2,12 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 import { admin, protect } from "../Middleware/AuthMiddleware.js";
 import Order from "./../Models/OrderModel.js";
-
+import User from "../Models/UserModel.js";
 const orderRouter = express.Router();
 
 // CREATE ORDER
 orderRouter.post(
-  "/",
+  "/:id",
   asyncHandler(async (req, res) => {
     const {
       orderItems,
@@ -18,7 +18,8 @@ orderRouter.post(
       shippingPrice,
       totalPrice,
     } = req.body;
-
+    const user = await User.findById(req.params.id);
+    console.log(req.params.id);
     if (orderItems && orderItems.length === 0) {
       res.status(400);
       throw new Error("No order items");
@@ -26,7 +27,7 @@ orderRouter.post(
     } else {
       const order = new Order({
         orderItems,
-        user: req.user._id,
+        user: user._id,
         shippingAddress,
         paymentMethod,
         itemsPrice,
@@ -57,10 +58,9 @@ orderRouter.get(
 
 // USER LOGIN ORDERS
 orderRouter.get(
-  "/",
-  protect,
+  "/:id",
   asyncHandler(async (req, res) => {
-    const order = await Order.find({ user: req.user._id }).sort({ _id: -1 });
+    const order = await Order.find({ user: req.params.id }).sort({ _id: -1 });
     res.json(order);
   })
 );

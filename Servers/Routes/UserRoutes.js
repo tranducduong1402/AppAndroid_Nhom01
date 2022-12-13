@@ -6,32 +6,6 @@ import User from "./../Models/UserModel.js";
 
 const userRouter = express.Router();
 
- /**
-  * @swagger
-  * tags:
-  *   name: Books
-  *   description: The books managing API
-  */
-
-/**
- * @swagger
- * /api/users:
- *   get:
- *     summary: Returns the list of all the books
- *     tags: [Users]
- *     responses:
- *       200:
- *         description: The list of the books
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
- */
-
-
-
 // LOGIN
 userRouter.post(
   "/login",
@@ -55,28 +29,7 @@ userRouter.post(
   })
 );
 
-/**
- * @swagger
- * /api/users:
- *   post:
- *     summary: Create a new user
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/user'
- *     responses:
- *       200:
- *         description: The book was successfully created
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/user'
- *       500:
- *         description: Some server error
- */
+
 // REGISTER
 userRouter.post(
   "/",
