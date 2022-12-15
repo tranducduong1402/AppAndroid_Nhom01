@@ -45,8 +45,6 @@ orderRouter.post(
 // ADMIN GET ALL ORDERS
 orderRouter.get(
   "/all",
-  protect,
-  admin,
   asyncHandler(async (req, res) => {
     const orders = await Order.find({})
       .sort({ _id: -1 })
