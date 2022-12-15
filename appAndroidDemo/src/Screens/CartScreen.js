@@ -11,7 +11,7 @@ import CartEmpty from "../Components/CartEmpty";
 function CartScreen({ route }) {
   const navigation = useNavigation();
   const product = route.params;
-  const [cart, setCart] = useState("");
+  const [cart, setCart] = useState([]);
   useEffect (() =>{
     AsyncStorage.getItem('cart').then((cart)=>{
       if (cart !== null) {
@@ -22,12 +22,13 @@ function CartScreen({ route }) {
     .catch((err)=>{
       alert(err)
     })
-  },[product])
+  },[cart])
+  
   let total = 0;
    for(var i=0 ;i < cart.length ;i++){
      total += cart[i].product.price * cart[i].qty;
    }
-   console.log(total)
+
   return (
     <Box flex={1} safeAreaTop bg={Colors.subGreen}>
       {/* Header */}

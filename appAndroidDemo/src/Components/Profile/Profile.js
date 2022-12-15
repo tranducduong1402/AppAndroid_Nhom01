@@ -34,7 +34,7 @@ const Profile = () => {
   },[])
   
   const update = (name, email, password ) => {
-    axios.put(`https://97ee-14-166-102-177.ap.ngrok.io/profile/${id}`, {
+    axios.put(`http://localhost:5000/profile/${id}`, {
         email,
         password,
         name,

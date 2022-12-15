@@ -27,13 +27,13 @@ const OrderIterm = () => {
       alert(err)
     })
   },[])
+  
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
       data={cart}
       keyExtractor={(item) => item.product._id}
       renderItem={({ item }) => (
-        console.log(item),
         <Pressable>
           <Box mb={3}>
             <HStack
