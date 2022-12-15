@@ -4,10 +4,10 @@
     "slug": "nhom1_app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/favicon.png",
+    "icon": "./assets/logonew.jpg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/unsplash.png",
+      "image": "./assets/background.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#48B600"
     },
@@ -20,12 +20,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/favicon.png",
+        "foregroundImage": "./assets/logonew.jpg",
         "backgroundColor": "#48B600"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logonew.jpg"
     }
   }
 }

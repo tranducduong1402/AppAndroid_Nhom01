@@ -8,35 +8,63 @@ import {
   Text,
   VStack,
 } from "native-base";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Buttone from "./Buttone";
 import Colors from "../color";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const OrdersInfos = [
+const OrderModel = () => {
+
+  const [cart, setCart] = useState([]);
+  useEffect (() =>{
+    AsyncStorage.getItem('cart').then((cart)=>{
+      if (cart !== null) {
+        const cartItem = JSON.parse(cart)
+         setCart(cartItem);  
+      }
+    })
+    .catch((err)=>{
+      alert(err)
+    })
+  },[])
+
+  let total = 0;
+  for(var i=0 ;i < cart.length ;i++){
+    total += cart[i].product.price * cart[i].qty;
+  }
+ 
+ const addDecimals =(num) => {
+   return (Math.round(num *100)/100).toFixed(2);
+ }
+ let shippingPrice = addDecimals(total > 200 ?0 :50)
+ let taxPrice = addDecimals(Number((0.1 * total).toFixed(2)))
+ const totalPrice = (
+   Number(total) + Number(shippingPrice) + Number(taxPrice)
+ )
+
+ const OrdersInfos = [
   {
     title: "Products",
-    price: 125.77,
+    price: `${total}`,
     color: "black",
   },
   {
     title: "Shipping",
-    price: 34.0,
+    price: `${shippingPrice}`,
     color: "black",
   },
   {
     title: "Tax",
-    price: 23.34,
+    price: `${taxPrice}`,
     color: "black",
   },
   {
     title: "Total Amount",
-    price: 3458.0,
+    price: `${totalPrice}`,
     color: "main",
   },
 ];
-
-const OrderModel = () => {
   const navigation = useNavigation();
   const [showModel, setShowModel] = useState(false);
   return (
@@ -101,6 +129,7 @@ const OrderModel = () => {
               onPress={() => {
                 navigation.navigate("Home");
                 setShowModel(false);
+                AsyncStorage.removeItem("cart");
               }}
               _pressed={{
                 bg: Colors.black,

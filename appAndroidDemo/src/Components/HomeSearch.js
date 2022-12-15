@@ -1,12 +1,28 @@
 import { Box, HStack, Input } from "native-base";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable } from "react-native";
 import Colors from "../color";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function HomeSearch() {
+
   const navigation = useNavigation();
+  const [cart, setCart] = useState("");
+
+  useEffect (() =>{
+    AsyncStorage.getItem('cart').then((cart)=>{
+      if (cart !== null) {
+        const cartItem = JSON.parse(cart)
+         setCart(cartItem);  
+      }
+    })
+    .catch((err)=>{
+      alert(err)
+    })
+  },[cart.length])
+  
   return (
     <HStack
       space={3}
@@ -43,7 +59,7 @@ function HomeSearch() {
             fontSize: "11px",
           }}
         >
-          5
+          {cart.length}
         </Box>
       </Pressable>
     </HStack>

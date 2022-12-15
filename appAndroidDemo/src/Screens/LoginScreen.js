@@ -19,9 +19,9 @@ function LoginScreen({ navigation }) {
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const [userInfo, setUserInfo] = useState({});
- 
+   const [fail,setfail] = useState(false)
   const login = ( email, password ) => {
-   axios.post(' https://97ee-14-166-102-177.ap.ngrok.io/api/users/login', {
+   axios.post('https://4a54-171-232-199-112.ap.ngrok.io/api/users/login', {
        email,
        password,
      })
@@ -34,9 +34,8 @@ function LoginScreen({ navigation }) {
        console.log(userInfo);
      })
      .catch(e => {
-      <Message variant="alert-info mt-5"> Login sucess</Message>
-       console.log(`login error ${e}`);
-       // setIsLoading(false);
+      
+      setfail(true);
      });
  }; 
 
@@ -111,6 +110,12 @@ function LoginScreen({ navigation }) {
         >
           LOGIN
         </Button>
+        {fail ? <Message
+          color={Colors.red}
+          // bg={Colors.black}
+          children={"Email or password is incorrect"}
+        />  : ""
+      }
         <Pressable mt={4} onPress={() => navigation.navigate("Register")}>
           <Text color={Colors.deepestGray}>SIGN UP</Text>
         </Pressable>

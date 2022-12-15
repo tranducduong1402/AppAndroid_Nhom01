@@ -13,22 +13,6 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import Colors from "../color";
 import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// useEffect (() =>{
-//   AsyncStorage.getItem('cart').then((cart)=>{
-//     if (cart !== null) {
-//       const cartItem = JSON.parse(cart)
-//        setCart(cartItem);
-//     }
-//   })
-//   .catch((err)=>{
-//     alert(err)
-//   })
-// },[])
- const remove = (data) => {
-
-
- }
-
 
 const Swiper = (props) => (
   <SwipeListView
@@ -43,7 +27,6 @@ const Swiper = (props) => (
   />
 );
 
-// Cart Item
 const renderitem = (data) => (
   <Pressable>
     <Box ml={6} mb={3}>
@@ -57,7 +40,7 @@ const renderitem = (data) => (
         <Center w="25%" bg={Colors.deepGray}>
           <Image
             source={{ uri: data.item.product.image }}
-            alt={data.item.name}
+            alt='{data.item.name}'
             w="full"
             h={24}
             resizeMode="contain"
@@ -103,7 +86,6 @@ const hiddenItem = (dataitem) => (
       AsyncStorage.getItem('cart').then((cart)=>{
         if (cart !== null) {
           const cartItem = JSON.parse(cart)
-          console.log(dataitem.item.product._id)
          const a = cartItem.filter(item =>  item.product._id !== dataitem.item.product._id)
          AsyncStorage.setItem('cart',JSON.stringify(a));
         }
@@ -120,8 +102,7 @@ const hiddenItem = (dataitem) => (
 );
 
 const CartIterms = (props) => {
-  // console.log(props.datane)
-  // console.log(products.slice(0, 2))
+  
   return (
     <Box mr={6}>
       <Swiper item={props} />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   CheckIcon,
@@ -13,11 +13,55 @@ import Colors from "../color";
 import Rating from "./Rating";
 import Message from "./Notfications/Message";
 import Buttone from "./Buttone";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { RefreshControl } from "react-native";
 
-export default function Review() {
-  const [ratings, setRatings] = useState("");
+export default function Review( route ) {
+  const [rating, setRatings] = useState("");
+  const [comment, setComment] = useState("");
+  const [render, setrender] =useState(false);
+  const [reload, setReload] =useState(false);
+  const [fail,setfail] = useState(false)
+
+ const [id, setid] = useState("");
+
+ useEffect (() =>{
+   AsyncStorage.getItem('userInfo').then((info)=>{
+     if (info !== null) {
+       const infomation = JSON.parse(info)
+       setid(infomation._id);  
+     }
+   })
+   .catch((err)=>{
+     alert(err)
+   })
+ },[])
+ useEffect(() => {
+ },[render])
+
+  const ReviewProduct = ( rating, comment ) => {
+    axios.post(`http://localhost:5000/api/products/${route.data._id}/${id}/review`, {
+        rating,
+        comment,
+      })
+      .then(res => {
+        setReload(true)
+        setTimeout(() => {
+          setReload(false)
+        },10000)
+      })
+      .catch(e => {
+        fail(true)
+        console.log(`register error ${e}`);
+        // setIsLoading(false);
+      });
+  }; 
+
+
   return (
-    <Box my={9}>
+    <Box my={9} >
       <Heading bold fontSize={15} mb={2}>
         REVIEW
       </Heading>
@@ -29,25 +73,31 @@ export default function Review() {
         children={"NO REVIEW"}
       /> */}
       {/* REVIEW */}
-      <Box p={3} bg={Colors.deepGray} mt={5} rounded={5}>
+      {route.data.reviews.map((review) => (
+        <Box p={3} bg={Colors.deepGray} mt={5} rounded={5}  refreshControl = {
+          <RefreshControl refreshing= {reload}/>
+        }>
         <Heading fontSize={15} color={Colors.black}>
-          User Doe
+        {review.name}
         </Heading>
-        <Rating value={4} />
+        <Rating value={review.rating} />
         <Text my={2} fontSize={11}>
-          Jan 12 2022
+         {review.createdAt}
         </Text>
         <Message
           color={Colors.black}
           bg={Colors.white}
           size={10}
           children={
-            "NativeBase Icons was designed to make integration of icons in nativebase projects easier."
+            review.comment
           }
         />
       </Box>
+
+      ))}
+      
       {/* WRITE REVIEW */}
-      {/* <Box mt={6}>
+      <Box mt={6}>
         <Heading fontSize={15} bold mb={4}>
           REVIEW THIS PRODUCT
         </Heading>
@@ -71,12 +121,14 @@ export default function Review() {
                 bg: Colors.subGreen,
                 endIcon: <CheckIcon size={3} />,
               }}
-              selectedValue={ratings}
-              onValueChange={(e) => setRatings(e)}
+              selectedValue={rating}
+              onValueChange={itemValue => setRatings(itemValue)}
             >
               <Select.Item label="1 - Poor" value="1" />
               <Select.Item label="2 - Fair" value="2" />
-              <Select.Item label="3 - Good" value="3" />
+              <Select.Item label="3 - So Good" value="3" />
+              <Select.Item label="4 - Very good" value="4" />
+              <Select.Item label="4 - perfect" value="5" />
             </Select>
           </FormControl>
           <FormControl>
@@ -98,18 +150,23 @@ export default function Review() {
               _focus={{
                 bg: Colors.subGreen,
               }}
+              value ={comment}
+              onChange ={(e) => setComment(e.target.value)}
             />
           </FormControl>
-          <Buttone bg={Colors.main} color={Colors.white}>
+          <Buttone bg={Colors.main} color={Colors.white}
+          onPress={() => {ReviewProduct(rating, comment)}}
+          >
             SUBMIT
           </Buttone>
-          <Message
-            color={Colors.white}
-            bg={Colors.black}
-            children={"Please 'Login' to write a review"}
-          />
+          {fail ? <Message
+            color={Colors.red}
+            // bg={Colors.black}
+            children={"Ban da review"}
+          />  : ""
+        }
         </VStack>
-      </Box> */}
+      </Box> 
     </Box>
   );
 }

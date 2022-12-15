@@ -2,6 +2,7 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 import Product from "./../Models/ProductModel.js";
 import { admin, protect } from "./../Middleware/AuthMiddleware.js";
+import User from "../Models/UserModel.js";
 
 const productRoute = express.Router();
 
@@ -59,16 +60,18 @@ productRoute.get(
 // req : request 
 // res: respone
 productRoute.post(
-  "/:id/review",
-  protect,
+  "/:id/:iduser/review",
   asyncHandler(async (req, res) => {
 
     const { rating, comment } = req.body;
     const product = await Product.findById(req.params.id);
+    const user = await User.findById(req.params.iduser);
+    console.log(user);
+    console.log(product);
 
     if (product) {
       const alreadyReviewed = product.reviews.find(
-        (r) => r.user.toString() === req.user._id.toString()
+        (r) => r.user.toString() === user._id.toString()
       );
       // kiem tra da danh gia chua
       if (alreadyReviewed) {
@@ -78,10 +81,10 @@ productRoute.post(
        
       // khoi tao object review
       const review = {
-        name: req.user.name,
+        name: user.name,
         rating: Number(rating),
         comment,
-        user: req.user._id,
+        user: user._id,
       };
 
       product.reviews.push(review);

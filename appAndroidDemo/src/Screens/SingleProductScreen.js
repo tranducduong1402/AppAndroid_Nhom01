@@ -20,8 +20,7 @@ function SingleProductScreen({ route }) {
   const [value, setValue] = useState(1);
   const navigation = useNavigation();
   const product = route.params;
-  const [cart,setCart] = useState([]);
-
+  
   function onClickAddCart(data){
     const itemcart = {
       product: product,
@@ -101,13 +100,15 @@ function SingleProductScreen({ route }) {
           bg={Colors.main}
           color={Colors.white}
           mt={10}
+          
         >
           ADD TO CART
         </Buttone>
-        )}
+        )
+      }
       
         {/* REVIEW */}
-        <Review />
+        <Review data ={product} />
       </ScrollView>
     </Box>
   );

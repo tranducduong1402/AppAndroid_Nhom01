@@ -96,10 +96,8 @@ const PlaceOrderModel = ( props) => {
       totalPrice
     })
     .then(res => {
-      AsyncStorage.removeItem("cart")
         navigation.navigate("order");
         setShowModel(false);
-      alert("thanhcong")
     })
     .catch(e => {
    

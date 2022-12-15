@@ -13,6 +13,7 @@ import Colors from "../color";
 import Rating from "./Rating";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import SliderScreen from "../Screens/SliderScreen";
 
 function HomeProducts() {
   const navigation = useNavigation();
@@ -20,11 +21,10 @@ function HomeProducts() {
   const [data, setData]= useState([])
   useEffect( () =>{
     getBook();
-    console.log(data)
   },[])
 
   const getBook = async () =>{
-    const response = await axios.get("http://192.168.1.6:5000/api/products")
+    const response = await axios.get("http://localhost:5000/api/products")
     if(response.status === 200) {
       setData(response.data)
     }
@@ -32,6 +32,8 @@ function HomeProducts() {
   // data.map(item => console.log(item))
   return (
     <ScrollView flex={1} showsVerticalScrollIndicator={false}>
+   
+
       <Flex
         flexWrap="wrap"
         direction="row"

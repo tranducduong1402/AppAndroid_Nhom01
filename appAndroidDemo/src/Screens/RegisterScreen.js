@@ -20,7 +20,7 @@ function RegisterScreen({ navigation }) {
  const [name, setName] = useState(null)
 
  const register = ( name, email, password ) => {
-  axios.post(` https://97ee-14-166-102-177.ap.ngrok.io/api/users`, {
+  axios.post(` https://e289-113-191-232-148.ap.ngrok.io/api/users`, {
       name,
       email,
       password,
